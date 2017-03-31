@@ -51,12 +51,12 @@ defmodule Exfacebook.Http do
           {:ok, _value} = state -> state
           error -> {:error, %Error{message: inspect(error)}}
         end
-      {:ok, %Response{status_code: status_code}} ->
-        {:error, %Error{status_code: status_code, message: "not found resource"}}
+      {:ok, %Response{status_code: status_code}} = response ->
+        {:error, %Error{status_code: status_code, message: "not found resource", response: response}}
       {:error, %HTTPoison.Error{reason: reason}} ->
         {:error, %Error{message: inspect(reason)}}
-      _ ->
-        {:error, %Error{message: "0xDEADBEEF happened"}}
+      response ->
+        {:error, %Error{message: "0xDEADBEEF happened", response: response}}
     end
   end
 end
