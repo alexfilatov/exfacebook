@@ -51,7 +51,7 @@ defmodule Exfacebook.Http do
           {:ok, _value} = state -> state
           error -> {:error, %Error{message: inspect(error)}}
         end
-      {:ok, %Response{status_code: status_code}} = response ->
+      {:ok, %Response{status_code: status_code} = response} ->
         facebook_response = Poison.decode!(response.body)
         {:error, %Error{status_code: status_code, message: facebook_response.error.message, error_code: facebook_response.error.code, response: response}}
       {:error, %HTTPoison.Error{reason: reason}} ->
